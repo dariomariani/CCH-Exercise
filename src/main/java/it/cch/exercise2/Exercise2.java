@@ -16,7 +16,7 @@ public class Exercise2 {
     public double amount(List<Product> products, Category category) {
         var productsFound = productsFilteredByCategory(products, category);
         if (productsFound.isEmpty()) return Double.parseDouble("0");
-        return productsFound.stream().mapToDouble(Product::getPrice).reduce(0, Double::sum);
+        return productsFound.stream().mapToDouble(Product::getTotalAmount).reduce(0, Double::sum);
     }
 
     public List<Product> productsFilteredByCategory(List<Product> products, Category category){

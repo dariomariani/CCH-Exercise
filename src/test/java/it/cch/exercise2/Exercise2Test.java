@@ -22,48 +22,63 @@ public class Exercise2Test {
 
     @Test
     public void testGetAmountWhenRepositoryContainsOneElementAndCategoryIsFoundReturnProductPrice(){
-        var product = new Product("Macbook", Category.CAT1, 999.99);
+        var product = new Product("Macbook", Category.CAT1, 1,999.99);
         var singletonProduct = Collections.singletonList(product);
         assertEquals(999.99, exercise2.amount(singletonProduct, Category.CAT1));
     }
 
     @Test
+    public void testGetAmountWhenRepositoryContainsOneElementMultipleQuantityAndCategoryIsFoundReturnSumPrice(){
+        var product = new Product("Macbook", Category.CAT1, 2,999.99);
+        var singletonProduct = Collections.singletonList(product);
+        assertEquals(999.99*2, exercise2.amount(singletonProduct, Category.CAT1));
+    }
+
+    @Test
     public void testGetAmountWhenRepositoryContainsOneElementAndCategoryIsNotFoundReturnZero(){
-        var product = new Product("Macbook", Category.CAT1, 999.99);
+        var product = new Product("Macbook", Category.CAT1, 1, 999.99);
         var singletonProduct = Collections.singletonList(product);
         assertEquals(0, exercise2.amount(singletonProduct, Category.CAT2));
     }
 
     @Test
     public void testGetAmountWhenRepositoryContainsTwoElementAndCategoryIsFoundReturnSum(){
-        var product1 = new Product("Macbook", Category.CAT1, 999.99);
-        var product2 = new Product("iPhone", Category.CAT1, 1000.00);
+        var product1 = new Product("Macbook", Category.CAT1, 1,  999.99);
+        var product2 = new Product("iPhone", Category.CAT1, 1,  1000.00);
         var productPair = Arrays.asList(product1, product2);
         assertEquals(1999.99, exercise2.amount(productPair, Category.CAT1));
     }
 
     @Test
+    public void testGetAmountWhenRepositoryContainsTwoElementMultipleQuantitiesAndCategoryIsFoundReturnSum(){
+        var product1 = new Product("Macbook", Category.CAT1, 2,  999.99);
+        var product2 = new Product("iPhone", Category.CAT1, 3,  1000.00);
+        var productPair = Arrays.asList(product1, product2);
+        assertEquals((999.99*2) + (1000.00*3), exercise2.amount(productPair, Category.CAT1));
+    }
+
+    @Test
     public void testGetAmountWhenRepositoryContainsTwoElementAndCategoryIsNotFoundReturnZero(){
-        var product1 = new Product("Macbook", Category.CAT1, 999.99);
-        var product2 = new Product("iPhone", Category.CAT1, 1000.00);
+        var product1 = new Product("Macbook", Category.CAT1, 1,  999.99);
+        var product2 = new Product("iPhone", Category.CAT1, 1, 1000.00);
         var productPair = Arrays.asList(product1, product2);
         assertEquals(0, exercise2.amount(productPair, Category.CAT2));
     }
 
     @Test
     public void testGetAmountWhenRepositoryContainsElementFromDiffCategory(){
-        var product1 = new Product("Macbook", Category.CAT1, 999.99);
-        var product2 = new Product("iPhone", Category.CAT2, 1000.00);
+        var product1 = new Product("Macbook", Category.CAT1, 1, 999.99);
+        var product2 = new Product("iPhone", Category.CAT2, 1, 1000.00);
         var productPair = Arrays.asList(product1, product2);
         assertEquals(999.99, exercise2.amount(productPair, Category.CAT1));
     }
 
     @Test
     public void testGetAmountWhenRepositoryContainsMultipleElementFromDiffCategory(){
-        var product1 = new Product("Macbook", Category.CAT1, 999.99);
-        var product2 = new Product("MacbookPRO", Category.CAT1, 10000.00);
-        var product3 = new Product("iPhone", Category.CAT2, 1999.99);
+        var product1 = new Product("Macbook", Category.CAT1, 2, 999.99);
+        var product2 = new Product("MacbookPRO", Category.CAT1, 1, 10000.00);
+        var product3 = new Product("iPhone", Category.CAT2, 1, 1999.99);
         var productPair = Arrays.asList(product1, product2, product3);
-        assertEquals(10999.99, exercise2.amount(productPair, Category.CAT1));
+        assertEquals((999.99*2) + 10000.00, exercise2.amount(productPair, Category.CAT1));
     }
 }
