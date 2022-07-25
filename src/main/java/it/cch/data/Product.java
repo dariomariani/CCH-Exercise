@@ -1,14 +1,16 @@
 package it.cch.data;
 
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-
+@RequiredArgsConstructor
 public class Product {
     @Getter int productId;
-    @Getter String description;
-    @Getter Category category;
+    @Getter @NonNull String description;
+    @Getter @NonNull Category category;
     @Getter int quantity;
-    @Getter double price;
+    @Getter @NonNull double price;
     @Getter LocalDate date;
 }
