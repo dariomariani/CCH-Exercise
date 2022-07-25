@@ -2,8 +2,6 @@ package it.cch.exercise2;
 
 import it.cch.data.Category;
 import it.cch.data.Product;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
