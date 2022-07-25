@@ -1,14 +1,13 @@
-package it.cch.exercise1;
+package it.cch.exercise3;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ExerciseApplication {
+public class Exercise3 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExerciseApplication.class, args);
+		SpringApplication.run(Exercise3.class, args);
 	}
 
 }
