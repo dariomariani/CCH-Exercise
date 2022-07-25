@@ -12,4 +12,10 @@ public class ProductTest {
         var product = new Product("Macbook", Category.CAT1, 0, 999.99);
         assertEquals(0, product.getTotalAmount());
     }
+
+    @Test
+    public void testWhenQuantityIsNotZeroGetTotalAmount(){
+        var product = new Product("Macbook", Category.CAT1, 2, 999.99);
+        assertEquals(2*999.99, product.getTotalAmount());
+    }
 }
