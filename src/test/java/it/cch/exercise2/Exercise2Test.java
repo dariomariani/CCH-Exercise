@@ -17,9 +17,9 @@ public class Exercise2Test {
     private static final double price = 999.99;
     private static Stream<Arguments> testProductArguments() {
         return Stream.of(
-                Arguments.of(1, price, Category.CAT1),
-                Arguments.of(2, price, Category.CAT1),
-                Arguments.of(2, price, Category.CAT2)
+                Arguments.of(1, Category.CAT1),
+                Arguments.of(2, Category.CAT1),
+                Arguments.of(2, Category.CAT2)
         );
     }
 
@@ -32,7 +32,7 @@ public class Exercise2Test {
 
     @ParameterizedTest
     @MethodSource("testProductArguments")
-    public void testGetAmountSingleProductFoundDifferentQuantitiesOrNotFound(int quantity, double price, Category expectedCategory) {
+    public void testGetAmountSingleProductFoundDifferentQuantitiesOrNotFound(int quantity, Category expectedCategory) {
         var product = new Product("Macbook", Category.CAT1, quantity, price);
         var singletonProduct = Collections.singletonList(product);
         assertEquals(expectedCategory.equals(product.getCategory()) ? price * quantity : 0, exercise2.amount(singletonProduct, expectedCategory));
