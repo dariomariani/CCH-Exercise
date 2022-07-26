@@ -21,13 +21,7 @@ public class Exercise1 {
 
     private void visitTree(Category categoryToSearch, boolean nodeFound, List<Category> result, TreeNode currentNode){
         var found = nodeFound || currentNode.getCategory().equals(categoryToSearch);
-        if (found) {
-            result.add(currentNode.getCategory());
-        }
-        if (!currentNode.getChildren().isEmpty()){
-            currentNode.getChildren().forEach(treeNode -> {
-                visitTree(categoryToSearch, found, result, treeNode);
-            });
-        }
+        if (found) result.add(currentNode.getCategory());
+        currentNode.getChildren().forEach(treeNode -> visitTree(categoryToSearch, found, result, treeNode));
     }
 }

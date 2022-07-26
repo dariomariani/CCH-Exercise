@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 public class Product {
     @Getter int productId;
@@ -12,7 +14,7 @@ public class Product {
     @Getter @NonNull Category category;
     @Getter @NonNull int quantity;
     @Getter @NonNull double price;
-    @Getter LocalDate updatedAt;
+    @Getter LocalDateTime updatedAt;
 
     public double getTotalAmount() {
         return price * quantity;
