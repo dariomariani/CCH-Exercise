@@ -1,0 +1,2 @@
+Exercise 1 Notes:
+Treenode equals implemetation due to the assumption every category is different, so different categories correspond to different Treenodes.
