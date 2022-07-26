@@ -14,12 +14,9 @@ public class Exercise2 {
      * @return The sum of total amount for all products belonging to the input category
      */
     public double amount(List<Product> products, Category category) {
-        var productsFound = productsFilteredByCategory(products, category);
-        if (productsFound.isEmpty()) return Double.parseDouble("0");
-        return productsFound.stream().mapToDouble(Product::getTotalAmount).reduce(0, Double::sum);
-    }
-
-    public List<Product> productsFilteredByCategory(List<Product> products, Category category){
-        return products.stream().filter(product -> product.getCategory().equals(category)).collect(Collectors.toList());
+        return products.stream()
+                .filter(product -> product.getCategory().equals(category))
+                .mapToDouble(Product::getTotalAmount)
+                .reduce(0, Double::sum);
     }
 }
