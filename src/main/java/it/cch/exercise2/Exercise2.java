@@ -4,7 +4,6 @@ import it.cch.data.Category;
 import it.cch.data.Product;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Exercise2 {
     /**

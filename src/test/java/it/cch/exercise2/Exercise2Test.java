@@ -15,6 +15,14 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Exercise2Test {
     private static final double price = 999.99;
+    private static Stream<Arguments> arguments() {
+        return Stream.of(
+                Arguments.of(new Product("Macbook", Category.CAT1, 1, 999.99), new Product("iPhone", Category.CAT1, 1, 1000.00)),
+                Arguments.of(new Product("Macbook", Category.CAT2, 1, 999.99), new Product("iPhone", Category.CAT2, 1, 1000.00)),
+                Arguments.of(new Product("Macbook", Category.CAT1, 2, 999.99), new Product("iPhone", Category.CAT1, 3, 1000.00))
+        );
+    }
+
     private static Stream<Arguments> testProductArguments() {
         return Stream.of(
                 Arguments.of(1, Category.CAT1),
@@ -38,28 +46,16 @@ public class Exercise2Test {
         assertEquals(expectedCategory.equals(product.getCategory()) ? price * quantity : 0, exercise2.amount(singletonProduct, expectedCategory));
     }
 
-    @Test
-    public void testGetAmountWhenRepositoryContainsTwoElementAndCategoryIsFoundReturnSum() {
-        var product1 = new Product("Macbook", Category.CAT1, 1, 999.99);
-        var product2 = new Product("iPhone", Category.CAT1, 1, 1000.00);
-        var productPair = Arrays.asList(product1, product2);
-        assertEquals(1999.99, exercise2.amount(productPair, Category.CAT1));
-    }
-
-    @Test
-    public void testGetAmountWhenRepositoryContainsTwoElementMultipleQuantitiesAndCategoryIsFoundReturnSum() {
-        var product1 = new Product("Macbook", Category.CAT1, 2, 999.99);
-        var product2 = new Product("iPhone", Category.CAT1, 3, 1000.00);
-        var productPair = Arrays.asList(product1, product2);
-        assertEquals((999.99 * 2) + (1000.00 * 3), exercise2.amount(productPair, Category.CAT1));
-    }
-
-    @Test
-    public void testGetAmountWhenRepositoryContainsTwoElementAndCategoryIsNotFoundReturnZero() {
-        var product1 = new Product("Macbook", Category.CAT1, 1, 999.99);
-        var product2 = new Product("iPhone", Category.CAT1, 1, 1000.00);
-        var productPair = Arrays.asList(product1, product2);
-        assertEquals(0, exercise2.amount(productPair, Category.CAT2));
+    @ParameterizedTest
+    @MethodSource("arguments")
+    public void parametrized(Product firstProduct, Product secondProduct) {
+        var category = Category.CAT1;
+        var productPair = Arrays.asList(firstProduct, secondProduct);
+        var expected = productPair.stream()
+                .filter(product -> category.equals(product.getCategory()))
+                .map((product -> product.getPrice() * product.getQuantity()))
+                .reduce(0.0, Double::sum);
+        assertEquals(expected, exercise2.amount(productPair, category));
     }
 
     @Test
