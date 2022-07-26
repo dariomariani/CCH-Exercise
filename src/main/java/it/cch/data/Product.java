@@ -12,7 +12,7 @@ public class Product {
     @Getter @NonNull Category category;
     @Getter @NonNull int quantity;
     @Getter @NonNull double price;
-    @Getter LocalDate date;
+    @Getter LocalDate updatedAt;
 
     public double getTotalAmount() {
         return price * quantity;

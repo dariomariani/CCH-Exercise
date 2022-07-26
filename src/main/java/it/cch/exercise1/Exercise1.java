@@ -15,18 +15,19 @@ public class Exercise1 {
      */
     public List<Category> findAllDescendantsBy(Category category, TreeNode root) {
         var categoriesFound = new LinkedList<Category>();
-        categoriesFound.addAll(findCategory(category, root));
-        if (!root.getChildren().isEmpty()){
-            root.getChildren().forEach(treeNode -> {
-                categoriesFound.addAll(findCategory(category, treeNode));
-            });
-        }
+        visitTree(category, false, categoriesFound, root);
         return categoriesFound;
     }
 
-    private List<Category> findCategory(Category category, TreeNode currentNode){
-        var result = new LinkedList<Category>();
-        if (category.equals(currentNode.getCategory())) result.add(currentNode.getCategory());
-        return result;
+    private void visitTree(Category categoryToSearch, boolean nodeFound, List<Category> result, TreeNode currentNode){
+        var found = nodeFound || currentNode.getCategory().equals(categoryToSearch);
+        if (found) {
+            result.add(currentNode.getCategory());
+        }
+        if (!currentNode.getChildren().isEmpty()){
+            currentNode.getChildren().forEach(treeNode -> {
+                visitTree(categoryToSearch, found, result, treeNode);
+            });
+        }
     }
 }
