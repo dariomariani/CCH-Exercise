@@ -2,10 +2,11 @@ package it.cch.data;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TreeNode {
     @Getter @NonNull @EqualsAndHashCode.Include Category category;
-    @Getter @Setter List<TreeNode> children;
+    @Getter @Setter List<TreeNode> children = new ArrayList<>();
 }
