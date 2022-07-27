@@ -1,18 +1,27 @@
 package it.cch.data;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 @RequiredArgsConstructor
-public class Product {
-    @Getter int productId;
-    @Getter @NonNull String description;
-    @Getter @NonNull Category category;
-    @Getter @NonNull int quantity;
-    @Getter @NonNull double price;
-    @Getter LocalDate updatedAt;
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
+public class Product extends AuditableEntity{
+    @Getter @Setter @Id @GeneratedValue @EqualsAndHashCode.Include int productId;
+    @Getter @Setter @NonNull String description;
+    @Getter @Setter @NonNull Category category;
+    @Getter @Setter @NonNull int quantity;
+    @Getter @Setter @NonNull double price;
 
     public double getTotalAmount() {
         return price * quantity;
