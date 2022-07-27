@@ -3,7 +3,7 @@
 This repository contains the implementation of the three exercise provided by CCH Tagetik for going forward in 
 the selection process.
 
-Once cloned the repository, run mvn compile.
+Once cloned the repository, run mvn compile. Java 17 has been used.
 
 If you open the project with IntelliJ you should have three test configuration:
 
