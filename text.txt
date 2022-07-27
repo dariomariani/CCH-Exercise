@@ -1,2 +1,30 @@
-Exercise 1 Notes:
-Treenode equals implemetation due to the assumption every category is different, so different categories correspond to different Treenodes.
+For the first 2 exercise a TDD approach has been taken into account. For the exercise 2 even the test have been
+refactored with the help of parametrized test. Unit test readability for exercise 1 should be improved.
+
+In the exercise 1 recursive algorithm a LinkedList has been preferred to ArrayList because of the frequent manipulation.
+
+For excercise 3 there are no unit test due to lack of time, but let's dive into the implementation.
+For the whole project Lombok has been used for avoid writing getters, setters, toString, hash, equals and constructor method.
+For the persistence has been used the h2 in-memory database. For the scope of the project no kind of authentication has been
+configured.
+
+The class ProductController expose the endpoints requested, tried to follow the OpenApi3 specification, in particular
+for the groupby action and for the filter, dedicated endpoint have been configured instead of a general getendpoint with different
+request parameters.
+
+ProductRepository uses a SpringData CRUD Repository for providing out of the box the crud operations. Because of a REST
+service, validation has been done on the Dto objects before mapping them to database entities. This keeps database entities cleaner.
+The ValidationHandler is implemented for this reason.
+
+To avoid to expose to the client Product field like id, or audit values, NewProductDto expose only the field the client
+is encharged to fill. Then after the product creation the whole object is get back. For implementing audit fields, springboot
+AuditingEntityListener has been used.
+
+The ValidationHandler has been used even for the update action, which takes PriceQuantityDto and update the positive values
+on the product founded.
+
+Possible improvements:
+* Unit test for exercise 3
+* Integration test with the database
+* A full implementation of a ProductService to keep the ProductRepository separate from the controller and manage the business layer properly.
+
