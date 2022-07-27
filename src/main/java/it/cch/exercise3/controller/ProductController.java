@@ -2,42 +2,61 @@ package it.cch.exercise3.controller;
 
 import it.cch.data.Category;
 import it.cch.data.Product;
+import it.cch.exercise3.dto.NewProductDto;
+import it.cch.exercise3.dto.PriceQuantityDto;
+import it.cch.exercise3.exception.ProductNotFoundException;
+import it.cch.exercise3.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.HashMap;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
+    private final ProductRepository repository;
+    ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    ProductController(ProductRepository repository) {
+        this.repository = repository;
+    }
     @PostMapping()
-    public Product addProduct() {
-        return new Product("Macbook", Category.CAT1, 1, 999.99);
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody NewProductDto newProductDto) {
+        var newProduct = this.modelMapper.map(newProductDto, Product.class);
+        newProduct = this.repository.save(newProduct);
+        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
     }
     @GetMapping()
     public List<Product> getAll() {
-        return Collections.singletonList(new Product("Macbook", Category.CAT1, 7, 999.99));
+        return (List<Product>) this.repository.findAll();
     }
     @GetMapping(path = "/findByCategory", params = "category")
-    public Product getAllProductByCategory(@RequestParam Category category) {
-        return new Product("Macbook", category, 5, 999.99);
+    public List<Product> getAllProductByCategory(@RequestParam Category category) {
+        return this.repository.findByCategory(category);
     }
-    @GetMapping("groupByCategory")
-    public Map<Category,List<Product>> getAllProductsGroupedByCategory() {
-        var result = new HashMap<Category,List<Product>>();
-        result.put(Category.CAT1, Collections.singletonList(new Product("Macbook", Category.CAT1, 1, 999.99)));
-        return result;
+    @GetMapping("/groupByCategory")
+    public List<Product> getAllProductsGroupedByCategory() {
+        return this.repository.findGroupedByCategory();
     }
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Integer id) {
-        return new Product("Macbook", Category.CAT1, 1, 999.99);
+        return repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
-    @PutMapping()
-    public Product updateProduct() {
-        return new Product("Macbook", Category.CAT1, 1, 999.99);
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Integer id,@Valid @RequestBody PriceQuantityDto priceQuantityDto) {
+        return repository.findById(id).map(product -> {
+            var quantity = priceQuantityDto.getQuantity();
+            if (quantity != null) product.setQuantity(quantity.intValue());
+            var price = priceQuantityDto.getPrice();
+            if (price != null) product.setPrice(price.doubleValue());
+            return this.repository.save(product);
+        }).orElseThrow(() -> new ProductNotFoundException(id));
     }
 }
 
