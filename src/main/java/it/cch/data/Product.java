@@ -1,15 +1,17 @@
 package it.cch.data;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-
+@Entity
 @RequiredArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Product {
-    @Getter int productId;
+    @Getter @Id @GeneratedValue @EqualsAndHashCode.Include int productId;
     @Getter @NonNull String description;
     @Getter @NonNull Category category;
     @Getter @NonNull int quantity;
